@@ -20,20 +20,20 @@ struct BitIndexTests {
 
     @Test("Bit.Index is Index<Bit>")
     func typealiasIdentity() {
-        let index: Bit.Index = Bit.Index(__unchecked: (), Ordinal(5))
-        #expect(index.position == Ordinal(5))
+        let index: Bit.Index = 5
+        #expect(index == 5)
     }
 
     @Test("Bit.Index.Count wraps Cardinal")
     func countType() {
-        let count: Bit.Index.Count = Bit.Index.Count(Cardinal(42))
-        #expect(count.count == Cardinal(42))
+        let count: Bit.Index.Count = 42
+        #expect(count == 42)
     }
 
     @Test("Bit.Index.Offset wraps Vector")
     func offsetType() {
-        let offset: Bit.Index.Offset = Bit.Index.Offset(Affine.Discrete.Vector(7))
-        #expect(offset.rawValue == Affine.Discrete.Vector(7))
+        let offset: Bit.Index.Offset = 7
+        #expect(offset == 7)
     }
 }
 
@@ -74,38 +74,35 @@ struct BitIndexByteTests {
 
     @Test("byte 0 maps to bit 0")
     func byte0() {
-        let byteIndex = Index<UInt8>(__unchecked: (), Ordinal(0))
+        let byteIndex: Index<UInt8> = 0
         let bitIndex = Bit.Index(byteIndex)
-        #expect(bitIndex.position == Ordinal(0))
+        #expect(bitIndex == 0)
     }
 
     @Test("byte 1 maps to bit 8")
     func byte1() {
-        let byteIndex = Index<UInt8>(__unchecked: (), Ordinal(1))
+        let byteIndex: Index<UInt8> = 1
         let bitIndex = Bit.Index(byteIndex)
-        #expect(bitIndex.position == Ordinal(8))
+        #expect(bitIndex == 8)
     }
 
     @Test("byte 3 maps to bit 24")
     func byte3() {
-        let byteIndex = Index<UInt8>(__unchecked: (), Ordinal(3))
+        let byteIndex: Index<UInt8> = 3
         let bitIndex = Bit.Index(byteIndex)
-        #expect(bitIndex.position == Ordinal(24))
+        #expect(bitIndex == 24)
     }
 
     @Test("byte 2 with bit offset 5 maps to bit 21")
-    func byteWithOffset() {
-        let byteIndex = Index<UInt8>(__unchecked: (), Ordinal(2))
-        let bitOffset = Index<Bit>.Offset(Affine.Discrete.Vector(5))
-        let bitIndex = Bit.Index(byteIndex, bitOffset: bitOffset)
-        #expect(bitIndex.position == Ordinal(21))
+    func byteWithOffset() throws {
+        let byteIndex: Index<UInt8> = 2
+        let offset: Index<Bit>.Offset = 5
+        let bitIndex: Bit.Index = try .init(byteIndex, offset: offset)
+        #expect(bitIndex == 21)
     }
 
     @Test("byte 0 with bit offset 0 maps to bit 0")
-    func byteZeroOffsetZero() {
-        let byteIndex = Index<UInt8>(__unchecked: (), Ordinal(0))
-        let bitOffset = Index<Bit>.Offset(Affine.Discrete.Vector(0))
-        let bitIndex = Bit.Index(byteIndex, bitOffset: bitOffset)
-        #expect(bitIndex.position == Ordinal(0))
+    func byteZeroOffsetZero() throws {
+        #expect(try Bit.Index(0, offset: 0) == 0)
     }
 }

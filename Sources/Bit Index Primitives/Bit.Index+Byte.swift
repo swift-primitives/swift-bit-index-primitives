@@ -19,33 +19,29 @@ extension Bit.Index {
     /// Converts a byte-aligned position to the corresponding bit position.
     /// Byte 0 → Bit 0, Byte 1 → Bit 8, etc.
     ///
-    /// This uses the affine decomposition: convert position to offset from
-    /// origin, scale, then translate back. This is mathematically correct
-    /// because positions cannot be scaled directly in affine geometry.
+    /// Uses the count chain: position N means "N bytes precede this position",
+    /// which scales to "N×8 bits precede this position". All operations are
+    /// total (non-throwing) because both position and ratio are non-negative.
     ///
     /// - Parameter index: The byte index to convert.
     @inlinable
-    public init(_ byteIndex: Index_Primitives.Index<UInt8>) {
-        // Affine decomposition: position as offset from origin, scale, translate back
-        let byteOffset = Index<UInt8>.Offset(Affine.Discrete.Vector(Int(bitPattern: byteIndex.position)))
-        let bitOffset = byteOffset * .bitsPerByte
-        self.init(__unchecked: (), Ordinal(UInt(bitOffset.rawValue.rawValue)))
+    public init(
+        _ index: Index_Primitives.Index<UInt8>
+    ) {
+        self = Self(Index<UInt8>.Count(index) * .bitsPerByte)
     }
 
     /// Creates a bit index from a byte index and bit offset within that byte.
     ///
     /// - Parameters:
-    ///   - byteIndex: The byte index.
-    ///   - bitOffset: The bit offset within the byte (0..<8).
+    ///   - index: The byte index.
+    ///   - offset: The bit offset within the byte (0..<8).
+    /// - Throws: `Ordinal.Error` if the offset causes underflow.
     @inlinable
     public init(
-        _ byteIndex: Index_Primitives.Index<UInt8>,
-        bitOffset: Index<Bit>.Offset
-    ) {
-        // Scale byte offset to bit offset, then add bit offset within byte
-        let byteAsOffset = Index<UInt8>.Offset(Affine.Discrete.Vector(Int(bitPattern: byteIndex.position)))
-        let baseBitOffset = byteAsOffset * .bitsPerByte
-        let totalBitOffset = baseBitOffset.rawValue.rawValue + bitOffset.rawValue.rawValue
-        self.init(__unchecked: (), Ordinal(UInt(totalBitOffset)))
+        _ index: Index<UInt8>,
+        offset: Index<Bit>.Offset
+    ) throws(Ordinal.Error) {
+        self = try Self(Index<UInt8>.Count(index) * .bitsPerByte) + offset
     }
 }
