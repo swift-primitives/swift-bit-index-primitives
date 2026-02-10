@@ -28,20 +28,6 @@ extension Bit.Index {
     public init(
         _ index: Index_Primitives.Index<UInt8>
     ) {
-        self = Self(Index<UInt8>.Count(index) * .bitsPerByte)
-    }
-
-    /// Creates a bit index from a byte index and bit offset within that byte.
-    ///
-    /// - Parameters:
-    ///   - index: The byte index.
-    ///   - offset: The bit offset within the byte (0..<8).
-    /// - Throws: `Ordinal.Error` if the offset causes underflow.
-    @inlinable
-    public init(
-        _ index: Index<UInt8>,
-        offset: Index<Bit>.Offset
-    ) throws(Ordinal.Error) {
-        self = try Self(Index<UInt8>.Count(index) * .bitsPerByte) + offset
+        self = .zero + Index<UInt8>.Count(index) * .bitsPerByte
     }
 }
