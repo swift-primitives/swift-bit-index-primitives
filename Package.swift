@@ -25,6 +25,7 @@ let package = Package(
         .package(path: "../swift-bit-primitives"),
         .package(path: "../swift-index-primitives"),
         .package(path: "../swift-affine-primitives"),
+        .package(path: "../swift-ordinal-primitives"),
     ],
     targets: [
         .target(
@@ -33,6 +34,7 @@ let package = Package(
                 .product(name: "Bit Primitives", package: "swift-bit-primitives"),
                 .product(name: "Index Primitives", package: "swift-index-primitives"),
                 .product(name: "Affine Primitives", package: "swift-affine-primitives"),
+                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
             ]
         ),
         .target(
