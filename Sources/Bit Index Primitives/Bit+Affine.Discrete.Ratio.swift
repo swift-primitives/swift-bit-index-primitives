@@ -10,6 +10,7 @@
 // ===----------------------------------------------------------------------===//
 
 public import Affine_Primitives
+public import Byte_Primitives
 
 // MARK: - Generic Bit Width Ratio
 
@@ -33,17 +34,24 @@ extension Affine.Discrete.Ratio where To == Bit, From: FixedWidthInteger {
 
 // MARK: - Semantic Aliases
 
-extension Affine.Discrete.Ratio where From == UInt8, To == Bit {
+extension Affine.Discrete.Ratio where From == Byte, To == Bit {
     /// The number of bits per byte (8).
+    ///
+    /// `Byte` is the institute's byte-domain marker (per
+    /// `byte-protocol-capability-marker.md` Q1). The generic
+    /// `Ratio.bitWidth` alias requires `From: FixedWidthInteger`,
+    /// which `Byte` deliberately does not conform to (`Byte` is the
+    /// byte-domain twin of the arithmetic `UInt8`); the factor `8`
+    /// is hardcoded for this domain pair.
     ///
     /// ## Example
     ///
     /// ```swift
-    /// let byteOffset = Index<UInt8>.Offset(2)
+    /// let byteOffset = Index<Byte>.Offset(2)
     /// let bitOffset = byteOffset * .bitsPerByte  // Index<Bit>.Offset(16)
     /// ```
     @inlinable
-    public static var bitsPerByte: Self { .bitWidth }
+    public static var bitsPerByte: Self { .init(8) }
 }
 
 extension Affine.Discrete.Ratio where From == UInt, To == Bit {

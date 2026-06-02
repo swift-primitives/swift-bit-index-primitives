@@ -10,7 +10,9 @@
 // ===----------------------------------------------------------------------===//
 
 public import Affine_Primitives
+public import Byte_Primitives
 public import Index_Primitives
+public import Ordinal_Primitives
 
 extension Bit.Index {
 
@@ -19,33 +21,44 @@ extension Bit.Index {
     /// Converts a byte-aligned position to the corresponding bit position.
     /// Byte 0 → Bit 0, Byte 1 → Bit 8, etc.
     ///
-    /// This uses the affine decomposition: convert position to offset from
-    /// origin, scale, then translate back. This is mathematically correct
-    /// because positions cannot be scaled directly in affine geometry.
+    /// Uses the count chain: position N means "N bytes precede this position",
+    /// which scales to "N×8 bits precede this position". All operations are
+    /// total (non-throwing) because both position and ratio are non-negative.
+    ///
+    /// `Byte` (not `UInt8`) tags the source domain per the institute's
+    /// byte-domain convention (`byte-protocol-capability-marker.md` Q1).
     ///
     /// - Parameter index: The byte index to convert.
     @inlinable
-    public init(_ byteIndex: Index_Primitives.Index<UInt8>) {
-        // Affine decomposition: position as offset from origin, scale, translate back
-        let byteOffset = Index<UInt8>.Offset(Affine.Discrete.Vector(Int(bitPattern: byteIndex.position)))
-        let bitOffset = byteOffset * .bitsPerByte
-        self.init(__unchecked: (), Ordinal(UInt(bitOffset.rawValue.rawValue)))
+    public init(
+        _ index: Index_Primitives.Index<Byte>
+    ) {
+        self = .zero + Index_Primitives.Index<Byte>.Count(index) * .bitsPerByte
     }
 
-    /// Creates a bit index from a byte index and bit offset within that byte.
+    /// Creates a bit index from a byte index plus a bit offset within
+    /// (or beyond) that byte.
+    ///
+    /// Composes the byte-to-bit base position (byte N → bit N×8) with
+    /// a signed bit displacement. The displacement may be negative or
+    /// extend past the byte boundary; the result is clamped only by
+    /// `Ordinal.Error.underflow` / `.overflow` on the final addition.
+    ///
+    /// ```swift
+    /// // byte 2 + 5 bits = bit 21 (= 2×8 + 5)
+    /// let bitIndex = try Bit.Index(byteIndex, offset: bitOffset)
+    /// ```
     ///
     /// - Parameters:
-    ///   - byteIndex: The byte index.
-    ///   - bitOffset: The bit offset within the byte (0..<8).
+    ///   - byteIndex: The byte-aligned base position.
+    ///   - offset: A signed bit displacement from the byte's first bit.
+    /// - Throws: `Ordinal.Error.underflow` if the composed position
+    ///   would be negative; `.overflow` if it would exceed `UInt.max`.
     @inlinable
     public init(
-        _ byteIndex: Index_Primitives.Index<UInt8>,
-        bitOffset: Index<Bit>.Offset
-    ) {
-        // Scale byte offset to bit offset, then add bit offset within byte
-        let byteAsOffset = Index<UInt8>.Offset(Affine.Discrete.Vector(Int(bitPattern: byteIndex.position)))
-        let baseBitOffset = byteAsOffset * .bitsPerByte
-        let totalBitOffset = baseBitOffset.rawValue.rawValue + bitOffset.rawValue.rawValue
-        self.init(__unchecked: (), Ordinal(UInt(totalBitOffset)))
+        _ byteIndex: Index_Primitives.Index<Byte>,
+        offset: Index_Primitives.Index<Bit>.Offset
+    ) throws(Ordinal.Error) {
+        self = try (.zero + Index_Primitives.Index<Byte>.Count(byteIndex) * .bitsPerByte) + offset
     }
 }

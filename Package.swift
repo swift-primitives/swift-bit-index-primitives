@@ -1,4 +1,4 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 6.3.1
 
 import PackageDescription
 
@@ -22,9 +22,11 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../swift-bit-primitives"),
-        .package(path: "../swift-index-primitives"),
-        .package(path: "../swift-affine-primitives"),
+        .package(url: "https://github.com/swift-primitives/swift-bit-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-index-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-affine-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-ordinal-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-byte-primitives.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -33,6 +35,8 @@ let package = Package(
                 .product(name: "Bit Primitives", package: "swift-bit-primitives"),
                 .product(name: "Index Primitives", package: "swift-index-primitives"),
                 .product(name: "Affine Primitives", package: "swift-affine-primitives"),
+                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
+                .product(name: "Byte Primitives", package: "swift-byte-primitives"),
             ]
         ),
         .target(
@@ -56,12 +60,20 @@ let package = Package(
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let settings: [SwiftSetting] = [
+    let ecosystem: [SwiftSetting] = [
+        .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
+        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+        .enableExperimentalFeature("LifetimeDependence"),
         .enableExperimentalFeature("Lifetimes"),
-        .strictMemorySafety()
+        .enableExperimentalFeature("SuppressedAssociatedTypes"),
+        .enableUpcomingFeature("InferIsolatedConformances"),
+        .enableUpcomingFeature("LifetimeDependence"),
     ]
-    target.swiftSettings = (target.swiftSettings ?? []) + settings
+
+    let package: [SwiftSetting] = []
+
+    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
