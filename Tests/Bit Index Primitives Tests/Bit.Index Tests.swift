@@ -14,11 +14,27 @@ import Bit_Index_Primitives_Test_Support
 import Ordinal_Primitives
 import Testing
 
+// MARK: - Suite Structure
+
+@Suite
+struct `Bit.Index Tests` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+    @Suite(.serialized) struct Performance {}
+}
+
+// MARK: - Unit sub-suites
+
+extension `Bit.Index Tests`.Unit {
+    @Suite struct Typealias {}
+    @Suite struct Ratio {}
+    @Suite struct `Byte Conversion` {}
+}
+
 // MARK: - Bit.Index Typealias
 
-@Suite("Bit.Index")
-struct BitIndexTests {
-
+extension `Bit.Index Tests`.Unit.Typealias {
     @Test
     func `Bit.Index is Index<Bit>`() {
         let index: Bit.Index = 5
@@ -40,9 +56,7 @@ struct BitIndexTests {
 
 // MARK: - Affine Ratios
 
-@Suite("Affine.Discrete.Ratio")
-struct BitRatioTests {
-
+extension `Bit.Index Tests`.Unit.Ratio {
     @Test
     func `bitsPerByte is 8`() {
         let ratio: Affine.Discrete.Ratio<Byte, Bit> = .bitsPerByte
@@ -70,9 +84,7 @@ struct BitRatioTests {
 
 // MARK: - Byte-to-Bit Conversions
 
-@Suite("Bit.Index byte conversions")
-struct BitIndexByteTests {
-
+extension `Bit.Index Tests`.Unit.`Byte Conversion` {
     @Test
     func `byte 0 maps to bit 0`() {
         let byteIndex: Index<Byte> = 0
