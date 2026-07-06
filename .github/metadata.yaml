@@ -1,6 +1,6 @@
 # .github/metadata.yaml
 # Triaged by AI-assisted bulk pass (2026-04-29).
-description: "Bit index types for Swift."
+description: "Typed bit-position index with byte-to-bit conversion via typed ratios, distinct from raw Int, for Swift."
 topics:
   - primitives
   - bit
