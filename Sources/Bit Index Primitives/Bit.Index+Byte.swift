@@ -12,7 +12,7 @@
 public import Affine_Primitives
 public import Byte_Primitives
 public import Index_Primitives
-public import Ordinal_Primitives
+import Ordinal_Primitives
 
 extension Bit.Index {
 
