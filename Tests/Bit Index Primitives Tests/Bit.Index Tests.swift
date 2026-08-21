@@ -1,20 +1,7 @@
-// ===----------------------------------------------------------------------===//
-//
-// This source file is part of the swift-primitives open source project
-//
-// Copyright (c) 2024-2026 Coen ten Thije Boonkkamp and the swift-primitives project authors
-// Licensed under Apache License v2.0
-//
-// See LICENSE for license information
-//
-// ===----------------------------------------------------------------------===//
-
 import Bit_Index_Primitives
 import Bit_Index_Primitives_Test_Support
 import Ordinal_Primitives
 import Testing
-
-// MARK: - Suite Structure
 
 @Suite
 struct `Bit.Index Tests` {
@@ -24,15 +11,11 @@ struct `Bit.Index Tests` {
     @Suite(.serialized) struct Performance {}
 }
 
-// MARK: - Unit sub-suites
-
 extension `Bit.Index Tests`.Unit {
     @Suite struct Typealias {}
     @Suite struct Ratio {}
     @Suite struct `Byte Conversion` {}
 }
-
-// MARK: - Bit.Index Typealias
 
 extension `Bit.Index Tests`.Unit.Typealias {
     @Test
@@ -53,8 +36,6 @@ extension `Bit.Index Tests`.Unit.Typealias {
         #expect(offset == 7)
     }
 }
-
-// MARK: - Affine Ratios
 
 extension `Bit.Index Tests`.Unit.Ratio {
     @Test
@@ -81,8 +62,6 @@ extension `Bit.Index Tests`.Unit.Ratio {
         #expect(ratio.factor == 64)
     }
 }
-
-// MARK: - Byte-to-Bit Conversions
 
 extension `Bit.Index Tests`.Unit.`Byte Conversion` {
     @Test
