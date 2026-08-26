@@ -1,6 +1,6 @@
-import Bit_Index_Primitives
-import Bit_Index_Primitives_Test_Support
-import Ordinal_Primitives
+import Bit_Index
+import Bit_Index_Test_Support
+import Ordinal
 import Testing
 
 @Suite

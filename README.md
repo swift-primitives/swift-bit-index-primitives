@@ -1,7 +1,7 @@
-# Bit Index Primitives
+# Bit Index
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
-[![CI](https://github.com/swift-primitives/swift-bit-index-primitives/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-primitives/swift-bit-index-primitives/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-molecules/swift-bit-index/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-molecules/swift-bit-index/actions/workflows/ci.yml)
 
 `Bit.Index` — a typed position into a bit collection (`Index<Bit>`) — with byte↔bit conversions and the integer-to-bit ratios that drive them.
 
@@ -21,7 +21,7 @@ A bit position is a distinct type from a byte position or a raw `Int`, so the tw
 ## Quick Start
 
 ```swift
-import Bit_Index_Primitives
+import Bit_Index
 
 // A typed bit position, plus its companion count and offset types:
 let i: Bit.Index = 5
@@ -54,7 +54,7 @@ Add the dependency to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-bit-index-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-molecules/swift-bit-index.git", branch: "main")
 ]
 ```
 
@@ -64,7 +64,7 @@ Add the product to your target:
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Bit Index Primitives", package: "swift-bit-index-primitives")
+        .product(name: "Bit Index", package: "swift-bit-index")
     ]
 )
 ```
@@ -77,8 +77,8 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 | Product | Contents | When to import |
 |---------|----------|----------------|
-| `Bit Index Primitives` | `Bit.Index` (= `Index<Bit>`), byte↔bit conversions, and the `Affine.Discrete.Ratio` bit ratios. Re-exports the `Index` and `Byte` surface it builds on. | Consumers |
-| `Bit Index Primitives Test Support` | Re-exports upstream Test Support modules | Test target only |
+| `Bit Index` | `Bit.Index` (= `Index<Bit>`), byte↔bit conversions, and the `Affine.Discrete.Ratio` bit ratios. Re-exports the `Index` and `Byte` surface it builds on. | Consumers |
+| `Bit Index Test Support` | Re-exports upstream Test Support modules | Test target only |
 
 ---
 
@@ -96,11 +96,11 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Related Packages
 
-- [`swift-index-primitives`](https://github.com/swift-primitives/swift-index-primitives) — the phantom-typed `Index<T>` / `Count` / `Offset` that `Bit.Index` specializes.
-- [`swift-bit-primitives`](https://github.com/swift-primitives/swift-bit-primitives) — the `Bit` type this indexes over.
-- [`swift-byte-primitives`](https://github.com/swift-primitives/swift-byte-primitives) — `Byte`, the other side of the byte↔bit conversions.
-- [`swift-affine-primitives`](https://github.com/swift-primitives/swift-affine-primitives) — `Affine.Discrete.Ratio`, the typed integer ratios behind the conversions.
-- [`swift-ordinal-primitives`](https://github.com/swift-primitives/swift-ordinal-primitives) — `Ordinal`, the position algebra underlying `Index`.
+- [`swift-index`](https://github.com/swift-molecules/swift-index) — the phantom-typed `Index<T>` / `Count` / `Offset` that `Bit.Index` specializes.
+- [`swift-bit`](https://github.com/swift-molecules/swift-bit) — the `Bit` type this indexes over.
+- [`swift-byte`](https://github.com/swift-molecules/swift-byte) — `Byte`, the other side of the byte↔bit conversions.
+- [`swift-affine`](https://github.com/swift-molecules/swift-affine) — `Affine.Discrete.Ratio`, the typed integer ratios behind the conversions.
+- [`swift-ordinal`](https://github.com/swift-molecules/swift-ordinal) — `Ordinal`, the position algebra underlying `Index`.
 
 ---
 

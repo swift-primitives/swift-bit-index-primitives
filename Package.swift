@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-bit-index-primitives",
+    name: "swift-bit-index",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -13,61 +13,61 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Bit Index Primitives",
-            targets: ["Bit Index Primitives"]
+            name: "Bit Index",
+            targets: ["Bit Index"]
         ),
         .library(
-            name: "Bit Index Primitives Test Support",
-            targets: ["Bit Index Primitives Test Support"]
+            name: "Bit Index Test Support",
+            targets: ["Bit Index Test Support"]
         ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-bit-primitives.git",
+            url: "https://github.com/swift-molecules/swift-bit.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-index-primitives.git",
+            url: "https://github.com/swift-molecules/swift-index.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-affine-primitives.git",
+            url: "https://github.com/swift-molecules/swift-affine.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-ordinal-primitives.git",
+            url: "https://github.com/swift-molecules/swift-ordinal.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-byte-primitives.git",
+            url: "https://github.com/swift-molecules/swift-byte.git",
             branch: "main"
         ),
     ],
     targets: [
         .target(
-            name: "Bit Index Primitives",
+            name: "Bit Index",
             dependencies: [
-                .product(name: "Bit Primitives", package: "swift-bit-primitives"),
-                .product(name: "Index Primitives", package: "swift-index-primitives"),
-                .product(name: "Affine Primitives", package: "swift-affine-primitives"),
-                .product(name: "Ordinal Primitives", package: "swift-ordinal-primitives"),
-                .product(name: "Byte Primitives", package: "swift-byte-primitives"),
+                .product(name: "Bit", package: "swift-bit"),
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Affine", package: "swift-affine"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .product(name: "Byte", package: "swift-byte"),
             ]
         ),
         .target(
-            name: "Bit Index Primitives Test Support",
+            name: "Bit Index Test Support",
             dependencies: [
-                "Bit Index Primitives",
-                .product(name: "Bit Primitives Test Support", package: "swift-bit-primitives"),
-                .product(name: "Index Primitives Test Support", package: "swift-index-primitives"),
+                "Bit Index",
+                .product(name: "Bit Test Support", package: "swift-bit"),
+                .product(name: "Index Test Support", package: "swift-index"),
             ],
             path: "Tests/Support"
         ),
         .testTarget(
-            name: "Bit Index Primitives Tests",
+            name: "Bit Index Tests",
             dependencies: [
-                "Bit Index Primitives",
-                "Bit Index Primitives Test Support",
+                "Bit Index",
+                "Bit Index Test Support",
             ]
         ),
     ],

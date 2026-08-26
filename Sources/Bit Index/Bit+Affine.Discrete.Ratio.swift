@@ -1,5 +1,5 @@
-public import Affine_Primitives
-public import Byte_Primitives
+public import Affine
+public import Byte
 
 extension Affine.Discrete.Ratio where To == Bit, From: FixedWidthInteger {
 
